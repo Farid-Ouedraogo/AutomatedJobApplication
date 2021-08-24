@@ -1,0 +1,12 @@
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd" >
+
+<suite name="Suite" parallel="tests" thread-count="1" verbose="1">
+
+    <test name="Chrome Test" parallel="false" thread-count="1">
+        <parameter name="browser" value="chrome"/>
+        <classes>
+            <class name="com.tests.ApplyToJobTest" />
+        </classes>
+    </test>
+
+</suite>
