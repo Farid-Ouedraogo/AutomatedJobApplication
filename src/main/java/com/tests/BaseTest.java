@@ -1,7 +1,7 @@
 package com.tests;
 
-//import atu.testrecorder.ATUTestRecorder;
-//import atu.testrecorder.exceptions.ATUTestRecorderException;
+import atu.testrecorder.ATUTestRecorder;
+import atu.testrecorder.exceptions.ATUTestRecorderException;
 import com.pages.Page;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.WebDriver;
@@ -24,7 +24,7 @@ public class BaseTest {
     WebDriver driver;
     public Page page;
     public Logger log;
-//    ATUTestRecorder recorder;
+    ATUTestRecorder recorder;
 
     //define public property variables
     public String baseURL;
@@ -40,7 +40,7 @@ public class BaseTest {
         setUpProperties();
 
         //set up test recorder
-//        setUpTestRecorder();
+        setUpTestRecorder();
 
         //create WebDriver instance
         if(browser.equals("chrome")){
@@ -63,6 +63,8 @@ public class BaseTest {
         FileInputStream propertyFile = new FileInputStream("src\\main\\resources\\config.properties");
         prop.load(propertyFile);
 
+        //start video recording.
+        recorder.start();
 
         try{
             System.out.println("Connecting to base-url: " + baseURL);
@@ -80,7 +82,7 @@ public class BaseTest {
             Thread.sleep(5000);
             driver.quit();
             //stop video recording.
-//            recorder.stop();
+            recorder.stop();
         }
         catch(Exception e){
             e.printStackTrace();
@@ -112,16 +114,15 @@ public class BaseTest {
     }
 
     //method to set up test recorder
-//    public void setUpTestRecorder() throws ATUTestRecorderException {
-//
-//        DateFormat dateFormat = new SimpleDateFormat("yy-MM-dd HH-mm-ss");
-//        Date date = new Date();
-//
-//        //create ATUTestRecorder object & provide path to store videos and file name format.
-//        recorder = new ATUTestRecorder("C:\\Users\\Farid Ouedraogo\\Documents\\selenium videos","TestVideo-"+dateFormat.format(date),false);
-//        //start video recording.
-//        recorder.start();
-//    }
+    public void setUpTestRecorder() throws ATUTestRecorderException {
+
+        //date format to append to video title
+        DateFormat dateFormat = new SimpleDateFormat("MM-dd-yyyy HH-mm-ss");
+        Date date = new Date();
+
+        //path to store videos and file name format
+        recorder = new ATUTestRecorder("recordings\\","Test Case - "+dateFormat.format(date),false);
+    }
 
 
 }
