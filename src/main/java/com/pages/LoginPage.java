@@ -29,12 +29,10 @@ public class LoginPage extends BasePage{
     }
 
     //public page actions
-    public ResumePage doLogin(String username, String password){
+    public void doLogin(String username, String password){
         getEmail().sendKeys(username);
         getPassword().sendKeys(password);
         getLoginButton().click();
-
-        return getInstance(ResumePage.class);
     }
 
 

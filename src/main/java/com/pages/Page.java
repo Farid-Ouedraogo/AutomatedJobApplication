@@ -27,16 +27,4 @@ public abstract class Page {
     public abstract void waitForElementPresent(By locator);
     public abstract boolean waitForJSandJQueryToLoad();
 
-    //java generics
-    public <TPage extends BasePage> TPage getInstance(Class<TPage> pageClass){
-
-        try{
-           return pageClass.getDeclaredConstructor(WebDriver.class).newInstance(this.driver);
-       }
-       catch(Exception e){
-           e.printStackTrace();
-           return null;
-       }
-    }
-
 }

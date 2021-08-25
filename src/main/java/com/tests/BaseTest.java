@@ -1,60 +1,52 @@
 package com.tests;
 
-import atu.testrecorder.ATUTestRecorder;
-import atu.testrecorder.exceptions.ATUTestRecorderException;
-import com.pages.BasePage;
+//import atu.testrecorder.ATUTestRecorder;
+//import atu.testrecorder.exceptions.ATUTestRecorderException;
 import com.pages.Page;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.firefox.FirefoxOptions;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Parameters;
 
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.text.DateFormat;
-import java.util.Date;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Properties;
+import org.apache.log4j.Logger;
+
 
 public class BaseTest {
     WebDriver driver;
     public Page page;
-    ATUTestRecorder recorder;
+    public Logger log;
+//    ATUTestRecorder recorder;
 
-    public String propBaseURL;
-    public String propUsername;
-    public String propPassword;
+    //define public property variables
+    public String baseURL;
+    public String username;
+    public String password;
 
     //method that runs before test execution
     @BeforeMethod
     @Parameters(value = {"browser"})
     public void setUpTest(String browser) throws Exception {
 
-        DateFormat dateFormat = new SimpleDateFormat("yy-MM-dd HH-mm-ss");
-        Date date = new Date();
+        //load properties file
+        setUpProperties();
 
-        //create ATUTestRecorder object & provide path to store videos and file name format.
-        recorder = new ATUTestRecorder("C:\\Users\\Farid Ouedraogo\\Documents\\selenium videos","TestVideo-"+dateFormat.format(date),false);
-        //start video recording.
-        recorder.start();
+        //set up test recorder
+//        setUpTestRecorder();
 
         //create WebDriver instance
         if(browser.equals("chrome")){
 
-            ChromeOptions options = new ChromeOptions();
-            options.addArguments("--start-maximized");
-//            options.addArguments("--disable-web-security");
-//            options.addArguments("--allow-running-insecure-content");
-//            options.addArguments("--user-data-dir=C:\\Users\\Farid Ouedraogo\\AppData\\Local\\Google\\Chrome\\User Data\\Default");
-
             WebDriverManager.chromedriver().setup();
-            driver = new ChromeDriver(options);
+            driver = new ChromeDriver(setUpChromeOptions());
 
         } else if(browser.equals("firefox")){
 
@@ -63,7 +55,7 @@ public class BaseTest {
             driver.manage().window().maximize();
 
         } else{
-            System.out.println("no browser is defined in the POM.xml file.");
+            System.out.println("no browser is defined in the testng.xml file.");
         }
 
         //load properties file
@@ -71,19 +63,13 @@ public class BaseTest {
         FileInputStream propertyFile = new FileInputStream("src\\main\\resources\\config.properties");
         prop.load(propertyFile);
 
-        //set properties
-        String propBaseURL = prop.getProperty("baseURL");
-        String propUsername = prop.getProperty("username");
-        String propPassword = prop.getProperty("password");
 
         try{
-            System.out.println("Connecting to base-url: " + propBaseURL);
-            driver.get(propBaseURL);        }
+            System.out.println("Connecting to base-url: " + baseURL);
+            driver.get(baseURL);        }
         catch (Exception e){
             e.printStackTrace();
         }
-
-        page = new BasePage(driver);
 
     }
 
@@ -94,12 +80,48 @@ public class BaseTest {
             Thread.sleep(5000);
             driver.quit();
             //stop video recording.
-            recorder.stop();
+//            recorder.stop();
         }
         catch(Exception e){
             e.printStackTrace();
         }
 
     }
+
+    //method to load properties file
+    public void setUpProperties() throws Exception {
+
+        //load properties file
+        Properties prop = new Properties();
+        FileInputStream propertyFile = new FileInputStream("src\\main\\resources\\config.properties");
+        prop.load(propertyFile);
+
+        //set properties
+        baseURL = prop.getProperty("baseURL");
+        username = prop.getProperty("username");
+        password = prop.getProperty("password");
+    }
+
+    //method to set chrome properties
+    public ChromeOptions setUpChromeOptions(){
+
+        ChromeOptions options = new ChromeOptions();
+        options.addArguments("--start-maximized");
+
+        return options;
+    }
+
+    //method to set up test recorder
+//    public void setUpTestRecorder() throws ATUTestRecorderException {
+//
+//        DateFormat dateFormat = new SimpleDateFormat("yy-MM-dd HH-mm-ss");
+//        Date date = new Date();
+//
+//        //create ATUTestRecorder object & provide path to store videos and file name format.
+//        recorder = new ATUTestRecorder("C:\\Users\\Farid Ouedraogo\\Documents\\selenium videos","TestVideo-"+dateFormat.format(date),false);
+//        //start video recording.
+//        recorder.start();
+//    }
+
 
 }

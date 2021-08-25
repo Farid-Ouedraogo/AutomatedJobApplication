@@ -19,10 +19,8 @@ public class ApplyNowPage extends BasePage{
     }
 
     //page actions
-    public LoginPage doApply(){
+    public void doApply(){
 
         getApplyButton().click();
-
-        return getInstance(LoginPage.class);
     }
 }

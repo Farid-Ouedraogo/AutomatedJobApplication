@@ -3,31 +3,52 @@ package com.tests;
 import com.pages.*;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+import org.apache.log4j.Logger;
+
 
 public class ApplyToJobTest extends BaseTest{
+
+    public ApplyNowPage applyNowPage ;
+    public LoginPage loginPage ;
+    public ResumePage resumePage;
 
     @Test(priority = 1)
     public void doLoginTest() throws InterruptedException {
 
-        //Open job application page and assert/confirm the page title
-        String applyNowPageTitle = page.getInstance(ApplyNowPage.class).getPageTitle();
+        log = Logger.getLogger("ApplyToJobTest");
+
+        //pass driver to login page
+        applyNowPage = new ApplyNowPage(driver);
+
+        //access the job application page and assert the page title
+        String applyNowPageTitle = applyNowPage.getPageTitle();
         System.out.println(applyNowPageTitle);
         Assert.assertEquals(applyNowPageTitle, "Quality Assurance Automation Engineer - Profile - Remote - Indeed.com");
+        log.info("verified job application page title");
 
-        //Click the apply button and assert/confirm that you are redirected to the "Sign In" page
-        LoginPage loginPage = page.getInstance(ApplyNowPage.class).doApply();
+        //click the apply button
+        applyNowPage.doApply();
+
+        //pass driver to login page
+        loginPage = new LoginPage(driver);
+
+        //assert the "Sign In" page title
         String loginPageTitle = loginPage.getPageTitle();
         System.out.println(loginPageTitle);
         Assert.assertEquals(loginPageTitle,"Sign In | Indeed Accounts");
+        log.info("verified sign in page title");
 
-        //Enter username & password then click the "Sign In" button
-        ResumePage resumePage = page.getInstance(LoginPage.class).doLogin("username","password");
-        String resumePageTitle = resumePage.getPageTitle();
-        System.out.println(resumePageTitle);
-        Assert.assertEquals(resumePageTitle,"Upload or create a resume for this application | Indeed.com");
 
-        //Select to use existing resume and fill out form questions.
-         page.getInstance(ResumePage.class).doFillOutApplicationForm();
+        //login using the username and password properties
+        loginPage.doLogin(username,password);
+
+        //pass driver to the resume page
+        resumePage = new ResumePage(driver);
+
+        //select resume and answer form questions.
+        resumePage.doFillOutApplicationForm();
+        log.info("test complete");
+
     }
 
 }
