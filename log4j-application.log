@@ -1,0 +1,4 @@
+ 2021-08-24 21:41:04,561  INFO [TestNG-tests-1] ApplyToJobTest:27 - verified job application page title
+ 2021-08-24 21:41:07,152  INFO [TestNG-tests-1] ApplyToJobTest:39 - verified sign in page title
+ 2021-08-24 21:41:34,630  INFO [TestNG-tests-1] ApplyToJobTest:50 - test complete
+

@@ -133,9 +133,14 @@
             <version>1.7.32</version>
         </dependency>
 
-
-
-
+        <!-- ATU recorder -->
+        <dependency>
+            <groupId>ATUTestRecorder</groupId>
+            <artifactId>ATUTestRecorder</artifactId>
+            <scope>system</scope>
+            <version>2.1</version>
+            <systemPath>${project.basedir}/libs/ATUTestRecorder.jar</systemPath>
+        </dependency>
 
     </dependencies>
 
