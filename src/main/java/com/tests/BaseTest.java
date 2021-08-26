@@ -27,6 +27,7 @@ public class BaseTest {
     public String baseURL;
     public String username;
     public String password;
+    public String coverLetter;
 
     //method that runs before test execution
     @BeforeMethod
