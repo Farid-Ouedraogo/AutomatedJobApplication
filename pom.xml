@@ -139,7 +139,7 @@
             <artifactId>ATUTestRecorder</artifactId>
             <scope>system</scope>
             <version>2.1</version>
-            <systemPath>${project.basedir}/libs/ATUTestRecorder.jar</systemPath>
+            <systemPath>${project.basedir}/src/main/lib/ATUTestRecorder.jar</systemPath>
         </dependency>
 
     </dependencies>
